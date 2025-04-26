@@ -1,63 +1,20 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
-//https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
-class dfs {
-    public ArrayList<Integer> bfs(ArrayList<ArrayList<Integer>> graph) {
-        int V = graph.size();
+public class dfs {
+    public ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> graph) {
+        int V=graph.size();
+        boolean[] vis = new boolean[V];
         ArrayList<Integer> ans = new ArrayList<>();
-        boolean [] visited = new boolean[V];
-        Queue<Integer> que = new LinkedList<>();
-        que.add(0);
-        visited[0]=true;
-        while(que.size()!=0){
-            int size = que.size();
-            while(size-->0){
-                int rEle = que.remove();
-                ans.add(rEle);
-                List<Integer> neighbours = graph.get(rEle);
-                for(int neighbour:neighbours){
-                    if(!visited[neighbour]){
-                        que.add(neighbour);
-                        visited[neighbour]=true;
-                    }
-                }
-            }
-        }
+        dfs(0, vis, ans, graph);
         return ans;
+        
     }
-
-    public ArrayList<ArrayList<Integer>> bfs2(ArrayList<ArrayList<Integer>> graph) {
-        int V = graph.size();
-        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        boolean [] visited = new boolean[V];
-        Queue<Integer> que = new LinkedList<>();
-        que.add(0);
-        visited[0]=true;
-        int lvl =0;
-        while(que.size()!=0){
-            int size = que.size();
-            while(size-->0){
-                int rEle = que.remove();
-                if(lvl == ans.size()){
-                    ArrayList<Integer> dummy = new ArrayList<>();
-                    dummy.add(rEle);
-                    ans.add(dummy);
-                }else{
-                    ans.get(lvl).add(rEle);
-                }
-                List<Integer> neighbours = graph.get(rEle);
-                for(int neighbour:neighbours){
-                    if(!visited[neighbour]){
-                        que.add(neighbour);
-                        visited[neighbour]=true;
-                    }
-                }
-            }
-            lvl++;
+    private void dfs(int src, boolean[] vis, ArrayList<Integer> ans, ArrayList<ArrayList<Integer>> graph) {
+        ans.add(src);
+        vis[src]=true;
+        for(int neighbour: graph.get(src)){
+            if(!vis[neighbour])
+                dfs(neighbour,vis,ans, graph);
         }
-        return ans;
     }
 }
